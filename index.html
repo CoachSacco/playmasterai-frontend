@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PlayMasterAI Analysis Output</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Upload Section -->
+  <div id="uploadView">
+    <button onclick="toggleView('analysis')" class="nav-btn">Go to Analysis</button>
+    <!-- Your existing upload UI will go here -->
+    <p style="text-align: center;">[Upload Page Placeholder]</p>
+  </div>
+
+  <!-- Analysis Output Section -->
+  <div id="analysisView" style="display: none;">
+    <button onclick="toggleView('upload')" class="nav-btn">Back to Upload</button>
+    <div class="analysis-container">
+      <div class="text-output">
+        <h2>AI Breakdown</h2>
+        <p><strong>Opponent Tendencies:</strong> Frequently uses Cover 3 on 3rd and long. Blitzes from the weak side 40% of the time.</p>
+        <p><strong>Suggested Adjustments:</strong> Use bunch formations to pull defenders out of alignment. Try flood concepts to beat zone.</p>
+        <p><strong>Player Spotlight:</strong> QB #10 has a slow dropback under pressure. LB #7 is most active on stunts.</p>
+      </div>
+
+      <div class="visual-output">
+        <h2>Visual Report</h2>
+
+        <div class="chart">
+          <h3>Play Success Rate</h3>
+          <p>[Chart Placeholder]</p>
+        </div>
+
+        <div class="formation-diagram">
+          <h3>Common Formations</h3>
+          <p>[Formation Diagram Placeholder]</p>
+        </div>
+
+        <div class="tags-table">
+          <h3>Defensive Tags</h3>
+          <table>
+            <tr><th>Play</th><th>Coverage</th><th>Blitz</th></tr>
+            <tr><td>3rd & 8</td><td>Cover 3</td><td>Weak Side</td></tr>
+            <tr><td>2nd & 5</td><td>Man</td><td>None</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
