@@ -5,14 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PlayMasterAI Analysis Output</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0f7fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-btn {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #4fd1c5;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .upload-form {
+      text-align: center;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: #1e1e1e;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .upload-form input[type="text"],
+    .upload-form input[type="file"] {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      width: 80%;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .upload-form button {
+      margin-top: 1rem;
+    }
+
+    .upload-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .upload-list li {
+      padding: 0.75rem;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .upload-list .analyze-btn {
+      padding: 0.25rem 0.5rem;
+      background-color: #4fd1c5;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .analysis-container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    .text-output,
+    .visual-output {
+      flex: 1 1 45%;
+      background-color: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+    }
+
+    h2 {
+      color: #4fd1c5;
+      margin-bottom: 1rem;
+    }
+
+    .chart,
+    .formation-diagram,
+    .tags-table {
+      margin-top: 1rem;
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th,
+    td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: #4fd1c5;
+    }
+
+    @media (max-width: 768px) {
+      .analysis-container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- Upload Section -->
   <div id="uploadView">
     <button onclick="toggleView('analysis')" class="nav-btn">Go to Analysis</button>
-    <!-- Your existing upload UI will go here -->
-    <p style="text-align: center;">[Upload Page Placeholder]</p>
+
+    <div class="upload-form">
+      <h2>Upload Game Film</h2>
+      <input type="text" id="videoLink" placeholder="Paste a film link (Google Drive, Hudl, etc.)" />
+      <br />
+      <input type="file" id="fileUpload" />
+      <br />
+      <input type="text" id="clipLabel" placeholder="Optional label for this clip" />
+      <br />
+      <button class="nav-btn" onclick="handleSubmit()">Submit</button>
+      <p id="status"></p>
+
+      <ul id="uploadItems" class="upload-list"></ul>
+    </div>
   </div>
 
   <!-- Analysis Output Section -->
@@ -52,5 +182,19 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    function toggleView(view) {
+      const upload = document.getElementById('uploadView');
+      const analysis = document.getElementById('analysisView');
+      if (view === 'upload') {
+        upload.style.display = 'block';
+        analysis.style.display = 'none';
+      } else {
+        upload.style.display = 'none';
+        analysis.style.display = 'block';
+      }
+    }
+  </script>
 </body>
 </html>
+

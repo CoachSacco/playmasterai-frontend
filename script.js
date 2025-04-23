@@ -1,3 +1,13 @@
+function detectPlatform(link) {
+  if (link.includes('drive.google.com')) return 'Google Drive';
+  if (link.includes('hudl.com')) return 'Hudl';
+  if (link.includes('dropbox.com')) return 'Dropbox';
+  if (link.includes('nfhsnetwork.com')) return 'NFHS Network';
+  if (link.includes('justplay.com')) return 'Just Play';
+  if (link.includes('dvssport.com')) return 'DVSport';
+  return 'Unknown Source';
+}
+
 function handleSubmit() {
   const link = document.getElementById('videoLink').value.trim();
   const file = document.getElementById('fileUpload').files[0];
@@ -29,12 +39,14 @@ function handleSubmit() {
     }, 2000);
   }
 
+  // Handle LINK upload
   if (link) {
-    status.textContent = `Link received (${label || 'No label'}). Ready for analysis.`;
+    const platform = detectPlatform(link);
+    status.textContent = `${platform} link received (${label || 'No label'}). Ready for analysis.`;
 
     const newItem = document.createElement('li');
     newItem.innerHTML = `
-      <span>🔗 ${label || 'Link'}: ${link}</span>
+      <span>🔗 ${platform} (${label || 'Link'}): ${link}</span>
       <button class="analyze-btn">Analyze</button>
       <span class="analysis-status"></span>
     `;
@@ -50,6 +62,7 @@ function handleSubmit() {
     return;
   }
 
+  // Handle FILE upload
   if (file) {
     const fileName = file.name.toLowerCase();
     const isZip = fileName.endsWith(".zip");
@@ -60,7 +73,6 @@ function handleSubmit() {
       <button class="analyze-btn">Analyze</button>
       <span class="analysis-status"></span>
     `;
-
     uploadItems.appendChild(newItem);
 
     const analyzeBtn = newItem.querySelector('.analyze-btn');
@@ -78,68 +90,3 @@ function handleSubmit() {
   }
 }
 
-function toggleView(view) {
-  const uploadView = document.getElementById('uploadView');
-  const analysisView = document.getElementById('analysisView');
-
-  if (view === 'upload') {
-    uploadView.style.display = 'block';
-    analysisView.style.display = 'none';
-  } else {
-    uploadView.style.display = 'none';
-    analysisView.style.display = 'block';
-  }
-}
-
-function runThePlayMaster(linkOrFile, label) {
-  return {
-    text: [
-      `Opponent uses Cover 2 Man on most 3rd downs.`,
-      `Blitzes from nickel on 50% of plays.`,
-      `Run game struggles vs 3-4 fronts.`
-    ],
-    visuals: {
-      successChart: "placeholder",
-      formations: ["Trips Right", "I-Form", "Gun Bunch"],
-      tags: [
-        { play: "1st & 10", coverage: "Cover 2", blitz: "Nickel Edge" },
-        { play: "3rd & 6", coverage: "Man", blitz: "None" }
-      ]
-    }
-  };
-}
-
-function fillAnalysisPage(data) {
-  const textBox = document.querySelector('#analysisView .text-output');
-  textBox.innerHTML = `<h2>AI Breakdown</h2>`;
-  data.text.forEach(point => {
-    const p = document.createElement('p');
-    p.textContent = point;
-    textBox.appendChild(p);
-  });
-
-  const visualBox = document.querySelector('#analysisView .visual-output');
-  visualBox.innerHTML = `<h2>Visual Report</h2>`;
-
-  const chart = document.createElement('div');
-  chart.className = 'chart';
-  chart.innerHTML = `<h3>Play Success Rate</h3><p>[Chart Placeholder]</p>`;
-  visualBox.appendChild(chart);
-
-  const formations = document.createElement('div');
-  formations.className = 'formation-diagram';
-  const formationList = (data.visuals?.formations || []).map(f => `<li>${f}</li>`).join('');
-  formations.innerHTML = `<h3>Common Formations</h3><ul>${formationList}</ul>`;
-  visualBox.appendChild(formations);
-
-  const tagRows = (data.visuals?.tags || []).map(row => `
-    <tr><td>${row.play}</td><td>${row.coverage}</td><td>${row.blitz}</td></tr>
-  `).join('');
-  const table = document.createElement('div');
-  table.className = 'tags-table';
-  table.innerHTML = `<h3>Defensive Tags</h3><table>
-    <tr><th>Play</th><th>Coverage</th><th>Blitz</th></tr>
-    ${tagRows}
-  </table>`;
-  visualBox.appendChild(table);
-}
